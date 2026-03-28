@@ -14,7 +14,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class ArmorDecorationRecipe extends CustomRecipe {
-    public static RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = RecipeSerializer.simple((access) -> new ArmorDecorationRecipe(access.getCategory()));
+    public static final RecipeSerializer<ArmorDecorationRecipe> SERIALIZER = new CustomRecipe.Serializer<>(ArmorDecorationRecipe::new);
     
     public ArmorDecorationRecipe(CraftingBookCategory category) {
         super(category);
@@ -108,11 +108,6 @@ public class ArmorDecorationRecipe extends CustomRecipe {
             decoration.decorate(armorstack, decorationstack);
         
         return armorstack;
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int n, int m) {
-        return n * m >= 2;
     }
 
     @Override

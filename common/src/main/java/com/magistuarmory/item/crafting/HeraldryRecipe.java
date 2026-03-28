@@ -3,6 +3,7 @@ package com.magistuarmory.item.crafting;
 import com.magistuarmory.EpicKnights;
 import com.magistuarmory.item.MedievalShieldItem;
 import com.magistuarmory.item.armor.ISurcoat;
+import com.magistuarmory.item.armor.MedievalArmorItem;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -10,13 +11,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
 
 public class HeraldryRecipe extends CustomRecipe
 {
-    public static RecipeSerializer<HeraldryRecipe> SERIALIZER = RecipeSerializer.simple((access) -> new HeraldryRecipe(access.getCategory()));
+    public static final RecipeSerializer<HeraldryRecipe> SERIALIZER = new CustomRecipe.Serializer<>(HeraldryRecipe::new);
 
     public HeraldryRecipe(CraftingBookCategory category)
     {
@@ -103,13 +105,7 @@ public class HeraldryRecipe extends CustomRecipe
     }
 
     @Override
-    public boolean canCraftInDimensions(int p_44298_, int p_44299_)
-    {
-        return p_44298_ * p_44299_ >= 2;
-    }
-
-    @Override
-    public @NotNull RecipeSerializer<?> getSerializer()
+    public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer()
     {
         return getSerializerInstance();
     }
@@ -137,7 +133,7 @@ public class HeraldryRecipe extends CustomRecipe
         if (item instanceof MedievalArmorItem armorItem)
         {
             return (EpicKnights.GENERAL_CONFIG.enableSurcoatRecipeForAllArmor || item instanceof ISurcoat) && 
-                   armorItem.getEquipmentSlot().equals(EquipmentSlot.CHEST);
+                   armorItem.getType().getSlot() == EquipmentSlot.CHEST;
         }
         return false;
     }

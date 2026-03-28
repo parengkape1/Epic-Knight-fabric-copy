@@ -27,7 +27,7 @@ import java.util.List;
 
 public class DecorationRemoveRecipe extends CustomRecipe
 {
-    public static RecipeSerializer<DecorationRemoveRecipe> SERIALIZER = RecipeSerializer.simple((access) -> new DecorationRemoveRecipe(access.getCategory()));
+    public static final RecipeSerializer<DecorationRemoveRecipe> SERIALIZER = new CustomRecipe.Serializer<>(DecorationRemoveRecipe::new);
 
     public DecorationRemoveRecipe(CraftingBookCategory category)
     {
@@ -90,12 +90,6 @@ public class DecorationRemoveRecipe extends CustomRecipe
         }
         
         return ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int i, int j)
-    {
-        return i * j >= 1;
     }
 
     @Override
